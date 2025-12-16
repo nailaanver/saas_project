@@ -30,6 +30,18 @@ DEBUG = os.getenv("DEBUG") == "True"
 
 ALLOWED_HOSTS = []
 
+from datetime import timedelta
+
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework_simplejwt.authentication.JWTAuthentication',
+    ),
+}
+
+SIMPLE_JWT = {
+    'ACCESS_TOKEN_LIFETIME': timedelta(minutes=60),
+    'AUTH_HEADER_TYPES': ('Bearer',),
+}
 
 # Application definition
 
@@ -45,6 +57,7 @@ INSTALLED_APPS = [
     # Local apps
     'tenants',
     'billing',
+    'collaboration',
 ]
 
 MIDDLEWARE = [
