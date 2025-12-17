@@ -58,6 +58,7 @@ INSTALLED_APPS = [
     'tenants',
     'billing',
     'collaboration',
+    'rest_framework_simplejwt',
 ]
 
 MIDDLEWARE = [
