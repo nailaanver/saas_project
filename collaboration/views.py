@@ -13,17 +13,25 @@ from tenants.permissions import IsOwnerOrAdmin
 def create_channel(request):
     tenant_id = request.headers.get('X-Tenant-ID')
     if not tenant_id:
-       return Response({"error":"X-Tenant-ID header missing"},status =400)
-    tenant_id=int(tenant_id)
+        return Response({"error": "X-Tenant-ID header missing"}, status=400)
+
+    tenant_id = int(tenant_id)
     name = request.data.get('name')
+
     if not name:
-        return Response({"error":"Channel name required"}, status =400)
+        return Response({"error": "Channel name required"}, status=400)
+
+    if Channel.objects.filter(tenant_id=tenant_id, name=name).exists():
+        return Response({"error": "Channel already exists"}, status=400)
+
     channel = Channel.objects.create(
         name=name,
         tenant_id=tenant_id,
         created_by=request.user
     )
-    return Response(ChannelSerializer(channel).data,status=201)
+
+    return Response(ChannelSerializer(channel).data, status=201)
+
 @api_view(['GET'])
 @permission_classes([IsAuthenticated])
 def list_channels(request):
@@ -70,14 +78,27 @@ def send_message(request):
 @api_view(['GET'])
 @permission_classes([IsAuthenticated])
 def list_messages(request):
-    tenant_id =request.headers.get('X-Tenant-ID')
-    channel_id =request.query_params.get('channel_id')
-    
+    tenant_id = request.headers.get('X-Tenant-ID')
+    channel_id = request.query_params.get('channel_id')
+
+    if not tenant_id or not channel_id:
+        return Response(
+            {"error": "X-Tenant-ID header and channel_id query param are required"},
+            status=400
+        )
+
+    tenant_id = int(tenant_id)       # ✅ FIX
+    channel_id = int(channel_id)     # ✅ FIX
+
     messages = Message.objects.filter(
         tenant_id=tenant_id,
         channel_id=channel_id
     ).order_by('created_at')
-    return Response(MessageSerializer(messages,many=True).data)
+
+    return Response(
+        MessageSerializer(messages, many=True).data
+    )
+
 
 @api_view(['GET'])
 @permission_classes([IsAuthenticated])
