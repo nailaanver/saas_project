@@ -1,0 +1,41 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Workspace</title>
+
+    <!-- global + page css -->
+    <link rel="stylesheet" href="{% static 'css/base.css' %}">
+    <link rel="stylesheet" href="{% static 'css/index.css' %}">
+</head>
+<body>
+
+<div class="app">
+    <!-- LEFT: Channels -->
+    <div class="sidebar">
+        <h3>Channels</h3>
+        <div id="channels"></div>
+    </div>
+
+    <!-- RIGHT: Messages -->
+    <div class="main">
+        <div class="messages" id="messages">
+            <p>Select a channel</p>
+        </div>
+
+        <div class="message-input">
+            <input type="text" id="messageText" placeholder="Type message..." />
+            <button onclick="sendMessage()">Send</button>
+        </div>
+    </div>
+</div>
+
+<script>
+    // coming from Django view
+    const TENANT_ID = "{{ tenant_id }}";
+</script>
+
+<script src="{% static 'js/collaboration.js' %}"></script>
+
+</body>
+</html>

@@ -1,11 +1,6 @@
 from django.urls import path
-from . import views
+from . import views_frontend
 
 urlpatterns = [
-    path('channels/create/',views.create_channel),
-    path('channels/',views.list_channels),
-    path('messages/send/',views.send_message),
-    path('messages/',views.list_messages),
-    path('debug-auth/', views.debug_auth),
-
+    path("workspace/<int:tenant_id>/",views_frontend.workspace_dashboard,name='workspace_dashboard'),
 ]
