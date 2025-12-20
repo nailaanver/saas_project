@@ -13,3 +13,5 @@ def create_channel_page(request, tenant_id):
     return render(request, "collaboration/create_channel.html", {
         "tenant_id": tenant_id
     })
+    
+

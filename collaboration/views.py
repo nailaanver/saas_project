@@ -139,4 +139,4 @@ def debug_auth(request):
     })
     
 def login_page(request):
-    return render(request, "login.html")
+    return render(request, "collaboration/login.html")

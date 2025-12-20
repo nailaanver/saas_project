@@ -12,38 +12,57 @@
 <input type="text" id="username" placeholder="Username">
 <input type="password" id="password" placeholder="Password">
 
-<button onclick="login()">Login</button>
+<button type="button" onclick="login()">Login</button>
 
 <script>
 function login() {
-    const username = document.getElementById("username").value;
-    const password = document.getElementById("password").value;
+    const username = document.getElementById("username").value.trim();
+    const password = document.getElementById("password").value.trim();
 
-    fetch("http://127.0.0.1:8000/api/token/", {
+    fetch("/api/token/", {
         method: "POST",
-        headers: {
-            "Content-Type": "application/json"
-        },
-        body: JSON.stringify({
-            username: username,
-            password: password
-        })
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ username, password })
     })
     .then(res => res.json())
     .then(data => {
-        if (data.access) {
-            // ✅ Save token
-            localStorage.setItem("access_token", data.access);
-            localStorage.setItem("refresh_token", data.refresh);
-
-            // ✅ Redirect after login
-            window.location.href = "/dashboard/";
-        } else {
-            document.getElementById("error").innerText = "Invalid login";
+        if (!data.access) {
+            document.getElementById("error").innerText =
+                data.detail || "Invalid credentials";
+            return;
         }
+
+        // ✅ Save token
+        localStorage.setItem("access_token", data.access);
+
+        // ✅ Fetch tenant list
+        return fetch("/api/tenants/my/", {
+            headers: {
+                "Authorization": "Bearer " + data.access
+            }
+        });
+    })
+    .then(res => res.json())
+    .then(tenants => {
+        if (!tenants.length) {
+            alert("No workspace assigned");
+            return;
+        }
+
+        const tenantId = tenants[0].id;
+
+        // ✅ Correct redirect
+        window.location.href = `/collaboration/workspace/${tenantId}/`;
+    })
+    .catch(err => {
+        console.error(err);
+        document.getElementById("error").innerText = "Server error";
     });
 }
 </script>
+
+
+
 
 </body>
 </html>

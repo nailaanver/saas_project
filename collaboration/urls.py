@@ -8,4 +8,5 @@ urlpatterns = [
         views_frontend.create_channel_page,
         name="create_channel_page"
     ),
+    
 ]
