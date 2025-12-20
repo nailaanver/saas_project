@@ -1,13 +1,75 @@
 {% load static %}
 <!DOCTYPE html>
-<html>
-    <head>
-        <title>SaaS Platform</title>
-        <link rel="stylesheet" href="{% static 'css/style.css' %}">
-    </head>
-    <body>
-        <h1>Multi-Tenant SaaS Platform</h1>
-        <button onclick="pingBackend()">Ping Backend</button>
-        <script src="{% static 'js/app.js' %}"></script>
-    </body>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>TeamChat | Work Together</title>
+    <link rel="stylesheet" href="{% static 'css/index.css' %}">
+</head>
+<body>
+
+<!-- NAVBAR -->
+<nav class="navbar">
+    <div class="logo">TeamChat</div>
+    <div class="nav-links">
+<a href="{% url 'login-page' %}">Login</a>
+        <a href="/signup/" class="btn">Get Started</a>
+    </div>
+</nav>
+
+<!-- HERO SECTION -->
+<section class="hero">
+    <div class="hero-text">
+        <h1>Where Teams Work Together</h1>
+        <p>
+            TeamChat is a secure, multi-tenant collaboration platform inspired by Slack.
+            Chat, share ideas, and work together in one place.
+        </p>
+        <a href="/signup/" class="btn large">Create Workspace</a>
+    </div>
+    <div class="hero-image">
+        <img src="https://dummyimage.com/500x350/eaeaea/000&text=Chat+Preview" alt="chat">
+    </div>
+</section>
+
+<!-- FEATURES -->
+<section class="features">
+    <h2>Why TeamChat?</h2>
+
+    <div class="feature-grid">
+        <div class="feature-card">
+            <h3>💬 Real-time Messaging</h3>
+            <p>Communicate instantly with your team inside channels.</p>
+        </div>
+
+        <div class="feature-card">
+            <h3>🏢 Multi-Workspace</h3>
+            <p>Each company gets its own secure workspace.</p>
+        </div>
+
+        <div class="feature-card">
+            <h3>🔐 Secure Access</h3>
+            <p>Role-based access for owners, admins, and members.</p>
+        </div>
+
+        <div class="feature-card">
+            <h3>⚡ Fast & Simple</h3>
+            <p>Built with Django REST & modern frontend tools.</p>
+        </div>
+    </div>
+</section>
+
+<!-- CTA -->
+<section class="cta">
+    <h2>Start collaborating today</h2>
+    <p>Create your workspace and invite your team.</p>
+    <a href="/signup/" class="btn large">Get Started Free</a>
+</section>
+
+<!-- FOOTER -->
+<footer class="footer">
+    <p>© 2025 TeamChat. Built by Naila.</p>
+</footer>
+
+</body>
 </html>

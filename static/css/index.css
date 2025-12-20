@@ -1,30 +1,112 @@
-.app {
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Arial, sans-serif;
+}
+
+body {
+    background-color: #f8f9fc;
+    color: #333;
+}
+
+/* NAVBAR */
+.navbar {
     display: flex;
-    height: 100vh;
+    justify-content: space-between;
+    padding: 20px 60px;
+    background: white;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.05);
 }
 
-.sidebar {
-    width: 260px;
-    background: #3f0e40;
-    color: white;
-    padding: 10px;
+.logo {
+    font-size: 24px;
+    font-weight: bold;
+    color: #4a154b;
 }
 
-.main {
-    flex: 1;
+.nav-links a {
+    margin-left: 20px;
+    text-decoration: none;
+    color: #333;
+}
+
+.btn {
+    background: #4a154b;
+    color: white !important;
+    padding: 10px 18px;
+    border-radius: 6px;
+}
+
+.btn.large {
+    padding: 14px 28px;
+    font-size: 16px;
+}
+
+/* HERO */
+.hero {
     display: flex;
-    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+    padding: 80px 60px;
 }
 
-.messages {
-    flex: 1;
-    padding: 10px;
-    overflow-y: auto;
+.hero-text {
+    max-width: 500px;
+}
+
+.hero-text h1 {
+    font-size: 42px;
+    margin-bottom: 20px;
+}
+
+.hero-text p {
+    font-size: 18px;
+    margin-bottom: 30px;
+}
+
+.hero-image img {
+    max-width: 100%;
+}
+
+/* FEATURES */
+.features {
+    padding: 60px;
     background: white;
 }
 
-.message-input {
-    display: flex;
-    padding: 10px;
-    border-top: 1px solid #ddd;
+.features h2 {
+    text-align: center;
+    margin-bottom: 40px;
+}
+
+.feature-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 20px;
+}
+
+.feature-card {
+    padding: 25px;
+    background: #f8f9fc;
+    border-radius: 10px;
+}
+
+/* CTA */
+.cta {
+    text-align: center;
+    padding: 80px 20px;
+    background: #4a154b;
+    color: white;
+}
+
+.cta h2 {
+    margin-bottom: 15px;
+}
+
+/* FOOTER */
+.footer {
+    text-align: center;
+    padding: 20px;
+    background: #f1f1f1;
 }

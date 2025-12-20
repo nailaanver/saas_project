@@ -51,3 +51,14 @@ class IsOwnerOrAdmin(BasePermission):
             tenant_id=tenant_id,
             role__in=['owner', 'admin']
         ).exists()
+        
+class IsTenantMember(BasePermission):
+    def has_permission(self, request, view):
+        tenant_id = request.headers.get('X-Tenant-ID')
+        if not tenant_id:
+            return False
+
+        return TenantUser.objects.filter(
+            tenant_id=int(tenant_id),
+            user=request.user
+        ).exists()

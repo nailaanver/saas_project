@@ -2,6 +2,8 @@ from django.shortcuts import render
 from rest_framework.decorators import api_view,permission_classes
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
+from tenants.permissions import IsOwnerOrAdmin,IsTenantMember
+
 
 from .models import Channel,Message
 from .serializers import ChannelSerializer,MessageSerializer
@@ -36,44 +38,66 @@ def create_channel(request):
 @permission_classes([IsAuthenticated])
 def list_channels(request):
     tenant_id = request.headers.get('X-Tenant-ID')
-    
+    if not tenant_id:
+        return Response({"error": "X-Tenant-ID missing"}, status=400)
+
+    tenant_id = int(tenant_id)  # ✅ REQUIRED
+
     if not TenantUser.objects.filter(
-        tenant_id = tenant_id,
-        user = request.user
+        tenant_id=tenant_id,
+        user=request.user
     ).exists():
-        return Response({"error":"Not a tenant member"}, status = 403)
+        return Response({"error":"Not a tenant member"}, status=403)
+
     
     channels = Channel.objects.filter(tenant_id=tenant_id)
     return Response(ChannelSerializer(channels,many=True).data)
 
 @api_view(['POST'])
-@permission_classes([IsAuthenticated])
+@permission_classes([IsAuthenticated, IsTenantMember])
 def send_message(request):
     tenant_id = request.headers.get('X-Tenant-ID')
+    if not tenant_id:
+        return Response({"error": "X-Tenant-ID missing"}, status=400)
+
+    tenant_id = int(tenant_id)
+
+    # ✅ ANY TENANT MEMBER CAN MESSAGE
+    if not TenantUser.objects.filter(
+        tenant_id=tenant_id,
+        user=request.user
+    ).exists():
+        return Response(
+            {"error": "You are not a member of this workspace"},
+            status=403
+        )
+
     channel_id = request.data.get('channel_id')
     content = request.data.get('content')
-    
+
     if not content:
-        return Response({"error":"Message required"},status=400)
+        return Response({"error": "Message required"}, status=400)
+
     try:
         channel = Channel.objects.get(
-            id = channel_id,
+            id=channel_id,
             tenant_id=tenant_id
         )
     except Channel.DoesNotExist:
-        return Response({"error":"Invalid channel"},status=404)
-    
+        return Response({"error": "Invalid channel"}, status=404)
+
     message = Message.objects.create(
         tenant_id=tenant_id,
         channel=channel,
         user=request.user,
         content=content
     )
-    
+
     return Response(
         MessageSerializer(message).data,
         status=201
     )
+
     
 @api_view(['GET'])
 @permission_classes([IsAuthenticated])
@@ -114,3 +138,5 @@ def debug_auth(request):
         )
     })
     
+def login_page(request):
+    return render(request, "login.html")

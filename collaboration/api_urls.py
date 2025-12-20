@@ -7,4 +7,6 @@ urlpatterns = [
     path('messages/send/',views.send_message),
     path('messages/',views.list_messages),
     path('debug-auth/', views.debug_auth),
+        path("login/", views.login_page, name="login-page"),
+
 ]

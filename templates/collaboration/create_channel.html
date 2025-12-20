@@ -1,0 +1,32 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Create Channel</title>
+    <link rel="stylesheet" href="{% static 'css/create_channel.css' %}">
+</head>
+
+<body>
+
+<div class="container">
+    <h2>Create New Channel</h2>
+
+    <input
+        type="text"
+        id="channelName"
+        placeholder="Enter channel name"
+    />
+
+    <button onclick="createChannel()">Create</button>
+
+    <p id="error"></p>
+</div>
+
+<script>
+    const TENANT_ID = "{{ tenant_id }}";
+</script>
+
+<script src="{% static 'js/create_channel.js' %}"></script>
+
+</body>
+</html>

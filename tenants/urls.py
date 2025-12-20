@@ -9,4 +9,5 @@ urlpatterns = [
     path('subscription/change/',views.change_subscription),
     path('users/manage/',views.manage_users),
     path('tasks/',views.view_tasks),
+
 ]

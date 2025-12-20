@@ -1,0 +1,26 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Workspace</title>
+    <link rel="stylesheet" href="{% static 'css/workspace.css' %}">
+</head>
+<body>
+
+<div class="sidebar">
+    <h3>Channels</h3>
+    <ul id="channels"></ul>
+    <button onclick="createChannel()">+ Add Channel</button>
+</div>
+
+<div class="chat">
+    <h3 id="channel-title">Select a channel</h3>
+    <div id="messages"></div>
+
+    <input id="messageInput" placeholder="Type a message">
+    <button onclick="sendMessage()">Send</button>
+</div>
+
+<script src="{% static 'js/workspace.js' %}"></script>
+</body>
+</html>
